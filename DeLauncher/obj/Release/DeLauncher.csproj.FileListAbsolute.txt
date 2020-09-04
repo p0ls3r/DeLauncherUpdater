@@ -1,0 +1,7 @@
+C:\Users\HP\source\repos\DeLauncher\DeLauncher\bin\Release\DeLauncher.exe.config
+C:\Users\HP\source\repos\DeLauncher\DeLauncher\bin\Release\DeLauncher.exe
+C:\Users\HP\source\repos\DeLauncher\DeLauncher\bin\Release\DeLauncher.pdb
+C:\Users\HP\source\repos\DeLauncher\DeLauncher\obj\Release\DeLauncher.csprojAssemblyReference.cache
+C:\Users\HP\source\repos\DeLauncher\DeLauncher\obj\Release\DeLauncher.csproj.CoreCompileInputs.cache
+C:\Users\HP\source\repos\DeLauncher\DeLauncher\obj\Release\DeLauncher.exe
+C:\Users\HP\source\repos\DeLauncher\DeLauncher\obj\Release\DeLauncher.pdb
