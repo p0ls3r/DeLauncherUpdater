@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.IO;
+using System.Net.Http;
 
 namespace DeLauncher
 {
@@ -13,51 +14,27 @@ namespace DeLauncher
         public enum ConnectionStatus
         {
             NotConnected,
-            LimitedAccess,
             Connected
         }
 
-        public static ConnectionStatus CheckInternet()
+        public static async Task<ConnectionStatus> CheckInternet()
         {
+            HttpClient client = new HttpClient();
+
             try
             {
-                IPHostEntry entry = Dns.GetHostEntry("github.com");
-                IPHostEntry entry2 = Dns.GetHostEntry("dns.msftncsi.com");
-                if (entry.AddressList.Length == 0 || entry2.AddressList.Length == 0)
-                {
-                    return ConnectionStatus.NotConnected;
-                }
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                HttpResponseMessage response =  await client.GetAsync("https://github.com/"); 
+                response.EnsureSuccessStatusCode();                
+
+                return ConnectionStatus.Connected;
             }
-            catch
+            catch (HttpRequestException e)
             {
+                Console.WriteLine(e.Message); 
+                Console.WriteLine(e.InnerException.Message);
                 return ConnectionStatus.NotConnected;
             }
-
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://www.msftncsi.com/ncsi.txt");
-            try
-            {
-                HttpWebResponse responce = (HttpWebResponse)request.GetResponse();
-
-                if (responce.StatusCode != HttpStatusCode.OK)
-                {
-                    return ConnectionStatus.LimitedAccess;
-                }
-                using (StreamReader sr = new StreamReader(responce.GetResponseStream()))
-                {
-                    if (sr.ReadToEnd().Equals("Microsoft NCSI"))
-                    {
-                        return ConnectionStatus.Connected;
-                    }
-                    else
-                    {
-                        return ConnectionStatus.LimitedAccess;
-                    }
-                }
-            }
-            catch
-            {
-                return ConnectionStatus.NotConnected;
-            }
-        }
+        }            
     }
 }

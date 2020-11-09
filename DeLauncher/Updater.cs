@@ -15,7 +15,9 @@ namespace DeLauncher
             {
                 if (!InstancesChecker.AlreadyRunning())
                 {
-                    if (ConnectivityChecker.CheckInternet() == ConnectivityChecker.ConnectionStatus.LimitedAccess || ConnectivityChecker.CheckInternet() == ConnectivityChecker.ConnectionStatus.NotConnected)
+                    var connection = ConnectivityChecker.CheckInternet().GetAwaiter().GetResult();
+
+                    if (connection == ConnectivityChecker.ConnectionStatus.NotConnected)
                     {
                         var connectionErrorMessage = "No connection to internet or repository - updates are not available! \rНет интернета или доступа к хранилищу - обновления недоступны!";
                         var connectionCaption = "No connection. Отсутствует соединение";
